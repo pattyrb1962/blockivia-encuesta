@@ -110,7 +110,7 @@ body.light .topbar {
   background: rgba(245,245,240,0.9);
 }
 
-.topbar-logo img { height: 28px; }
+.topbar-logo img { height: 36px; width: auto; }
 
 .topbar-right {
   display: flex;
@@ -150,7 +150,7 @@ body.light .topbar {
 
 /* ── Welcome screen ── */
 .welcome-inner {
-  max-width: 580px;
+  max-width: 720px;
   width: 100%;
   text-align: center;
   padding-top: 56px;
@@ -160,7 +160,8 @@ body.light .topbar {
   margin-bottom: 36px;
 }
 .welcome-logo img {
-  height: 60px;
+  height: 120px;
+  width: auto;
 }
 
 .tricolor {
