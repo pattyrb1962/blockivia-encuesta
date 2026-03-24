@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Encuesta de tecnología BlockivIA — Blockchain + IA en Bolivia" />
+  <title>Encuesta Tech · BlockivIA</title>
+
+  <!-- Favicon inline (puede reemplazarse con un .ico) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>₿</text></svg>" />
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════
+       BARRA SUPERIOR (fija)
+  ══════════════════════════════════════ -->
+  <header class="topbar">
+    <div class="topbar-logo">
+      <!-- En modo claro se muestra el logo oscuro y viceversa -->
+      <img id="topbar-logo-img" src="assets/logo-dark.png" alt="BlockivIA" />
+    </div>
+    <div class="topbar-right">
+      <div class="progress-bar-wrap" title="Progreso de la encuesta">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" title="Cambiar tema" aria-label="Cambiar tema">☀️</button>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════
+       APP
+  ══════════════════════════════════════ -->
+  <div id="app">
+
+    <!-- ── 1. PANTALLA DE BIENVENIDA ── -->
+    <section class="screen" id="screen-welcome">
+      <div class="welcome-inner">
+
+        <div class="welcome-logo">
+          <img id="welcome-logo-img" src="assets/logo-dark.png" alt="BlockivIA" />
+          <div class="tricolor"></div>
+        </div>
+
+        <h1 class="welcome-headline">
+          ¿Cuánto sabes del<br />
+          <span class="accent">mundo digital</span>?
+        </h1>
+
+        <p class="welcome-body">
+          Bienvenido/a a la encuesta de <strong>BlockivIA</strong> — <em>Blockchain + IA en Bolivia</em>.<br />
+          En solo 2 minutos descubrirás tu perfil tecnológico: desde seguridad digital hasta
+          inteligencia artificial y criptomonedas. Tus respuestas son anónimas y nos ayudan a
+          diseñar talleres que realmente importen.
+        </p>
+
+        <div class="welcome-stats">
+          <div class="stat">
+            <div class="stat-num">12</div>
+            <div class="stat-label">Preguntas</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">~2</div>
+            <div class="stat-label">Minutos</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Secciones</div>
+          </div>
+        </div>
+
+        <button class="btn-start" id="btn-start">
+          Comenzar
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- ── 2. INTRO DE SECCIÓN ── -->
+    <section class="screen" id="screen-section-intro">
+      <div class="section-intro">
+        <span class="section-emoji" id="si-emoji">🛡️</span>
+        <div class="section-label" id="si-label">Sección 1 de 3</div>
+        <h2 class="section-title" id="si-title">Seguridad Digital</h2>
+        <p class="section-desc" id="si-desc">Descripción de la sección.</p>
+        <button class="btn-section-start" onclick="startSection()">
+          Empezar esta sección
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ── 3. PREGUNTA ── -->
+    <section class="screen" id="screen-question">
+      <div class="question-screen">
+
+        <div class="q-meta">
+          <span id="q-section-name">Seguridad Digital</span>
+          &nbsp;·&nbsp; Pregunta <span id="q-num">1</span> de <span id="q-total">2</span>
+        </div>
+
+        <p class="q-text" id="q-text">¿Texto de la pregunta?</p>
+
+        <!-- Aquí se inyectan las opciones o el textarea -->
+        <div id="q-body"></div>
+
+        <div class="q-nav">
+          <button class="btn-back" id="btn-back">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"/>
+              <polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Atrás
+          </button>
+          <button class="btn-next" id="btn-next" disabled>
+            Siguiente
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── 4. RESULTADOS ── -->
+    <section class="screen" id="screen-results">
+      <div class="results-screen">
+
+        <div class="section-label" style="text-align:center; margin-bottom:20px;">
+          ✅ Encuesta completada
+        </div>
+
+        <!-- Badge de perfil -->
+        <div class="result-badge" id="result-badge">
+          <div class="result-profile-title" id="result-profile-title">Pionero Tech 🚀</div>
+          <div class="result-profile-desc" id="result-profile-desc">Descripción del perfil.</div>
+        </div>
+
+        <!-- Gráfico de barras -->
+        <div class="chart-wrap">
+          <div class="chart-title">Tu perfil por categoría</div>
+          <div class="chart-bars" id="chart-bars">
+            <!-- Generado por results.js -->
+          </div>
+        </div>
+
+        <!-- CTA contacto -->
+        <div class="result-cta">
+          <div class="result-cta-title">¿Te interesa el taller?</div>
+          <p>
+            En <strong>BlockivIA</strong> organizamos talleres de Blockchain, IA y Seguridad Digital
+            diseñados para estudiantes, docentes y familias. ¡Escríbenos y te contamos más!
+          </p>
+          <div class="contact-links">
+            <a href="https://wa.me/59164428987" target="_blank" class="contact-link">
+              <!-- WhatsApp icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+                   fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15
+                         -.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075
+                         -.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059
+                         -.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52
+                         .149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52
+                         -.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51
+                         -.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372
+                         -.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074
+                         .149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625
+                         .712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413
+                         .248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.859L0 24l6.335-1.51
+                         A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.894
+                         a9.887 9.887 0 01-5.031-1.375l-.361-.214-3.762.896.952-3.671
+                         -.234-.376A9.855 9.855 0 012.106 12C2.106 6.58 6.58 2.106 12 2.106
+                         c5.42 0 9.894 4.474 9.894 9.894 0 5.42-4.474 9.894-9.894 9.894z"/>
+              </svg>
+              WhatsApp
+            </a>
+            <a href="https://www.blockivia.xyz" target="_blank" class="contact-link">
+              <!-- Globe icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+              </svg>
+              blockivia.xyz
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div><!-- /#app -->
+
+  <!-- ── OVERLAY DE ENVÍO ── -->
+  <div class="sending-overlay" id="sending-overlay">
+    <div class="spinner"></div>
+    <div class="sending-text">Guardando tus respuestas…</div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCRIPTS (orden importante)
+  ══════════════════════════════════════ -->
+  <script src="data/questions.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/results.js"></script>
+  <script src="js/submit.js"></script>
+  <script src="js/survey.js"></script>
+
+  <!-- Sincronizar logo con el tema -->
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const logos = [
+      document.getElementById('topbar-logo-img'),
+      document.getElementById('welcome-logo-img')
+    ];
+    themeToggle.addEventListener('click', () => {
+      const isLight = document.body.classList.contains('light');
+      logos.forEach(img => {
+        img.src = isLight ? 'assets/logo-light.png' : 'assets/logo-dark.png';
+      });
+    });
+  </script>
+
+</body>
+</html>
