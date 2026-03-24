@@ -232,8 +232,10 @@
       document.getElementById('welcome-logo-img')
     ];
     themeToggle.addEventListener('click', () => {
+      // Después del toggle, body.light ya fue aplicado/removido
       const isLight = document.body.classList.contains('light');
       logos.forEach(img => {
+        // modo claro → logo con fondo claro; modo oscuro → logo con fondo oscuro
         img.src = isLight ? 'assets/logo-light.png' : 'assets/logo-dark.png';
       });
     });
