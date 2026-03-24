@@ -5,10 +5,10 @@
 
 // Estado global
 const STATE = {
-  sectionIndex: 0,   // sección actual
-  questionIndex: 0,  // pregunta dentro de la sección
-  answers: {},       // { q1: 'a', q2: 'b', q7: 'texto...' }
-  phase: 'welcome'   // 'welcome' | 'section-intro' | 'question' | 'results'
+  sectionIndex: 0,
+  questionIndex: 0,
+  answers: {},
+  phase: 'welcome'
 };
 
 // ── Inicialización ──────────────────────────────────────────
@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupThemeToggle();
   updateProgress(0);
   showScreen('screen-welcome');
-
   document.getElementById('btn-start').addEventListener('click', startSurvey);
 });
 
@@ -25,7 +24,11 @@ function setupThemeToggle() {
   const btn = document.getElementById('theme-toggle');
   btn.addEventListener('click', () => {
     document.body.classList.toggle('light');
-    btn.textContent = document.body.classList.contains('light') ? '🌙' : '☀️';
+    const isLight = document.body.classList.contains('light');
+    btn.textContent = isLight ? '🌙' : '☀️';
+    document.querySelectorAll('#topbar-logo-img, #welcome-logo-img').forEach(img => {
+      img.src = isLight ? 'assets/logo-light.png' : 'assets/logo-dark.png';
+    });
   });
 }
 
@@ -35,7 +38,6 @@ function updateProgress(pct) {
 }
 
 function calcProgress() {
-  // Total de preguntas en toda la encuesta
   const total = SURVEY_SECTIONS.reduce((acc, s) => acc + s.questions.length, 0);
   let done = 0;
   for (let si = 0; si < STATE.sectionIndex; si++) {
@@ -71,7 +73,6 @@ function showCurrentQuestion() {
   const section = SURVEY_SECTIONS[STATE.sectionIndex];
   const q = section.questions[STATE.questionIndex];
 
-  // Meta
   document.getElementById('q-section-name').textContent = section.title;
   document.getElementById('q-num').textContent = STATE.questionIndex + 1;
   document.getElementById('q-total').textContent = section.questions.length;
@@ -79,17 +80,14 @@ function showCurrentQuestion() {
 
   updateProgress(calcProgress());
 
-  // Render según tipo
   const body = document.getElementById('q-body');
   if (q.type === 'single') {
     body.innerHTML = renderOptions(q);
-    // Restaurar selección previa
     const prev = STATE.answers[q.id];
     if (prev) {
       const btn = body.querySelector(`[data-opt="${prev}"]`);
       if (btn) btn.classList.add('selected');
     }
-    // Eventos
     body.querySelectorAll('.option-btn').forEach(btn => {
       btn.addEventListener('click', () => selectOption(q.id, btn.dataset.opt, body));
     });
@@ -100,12 +98,10 @@ function showCurrentQuestion() {
     ta.addEventListener('input', () => handleTextInput(q, ta));
   }
 
-  // Botón atrás
   const btnBack = document.getElementById('btn-back');
   btnBack.style.display = (STATE.sectionIndex === 0 && STATE.questionIndex === 0) ? 'none' : 'flex';
   btnBack.onclick = goBack;
 
-  // Botón siguiente
   const btnNext = document.getElementById('btn-next');
   btnNext.onclick = goNext;
   updateNextBtn(q);
@@ -151,12 +147,7 @@ function handleTextInput(q, ta) {
 
 function updateNextBtn(q) {
   const btn = document.getElementById('btn-next');
-  if (q.type === 'text') {
-    // Texto: puede continuar aunque esté vacío (opcional)
-    btn.disabled = false;
-  } else {
-    btn.disabled = !STATE.answers[q.id];
-  }
+  btn.disabled = q.type === 'text' ? false : !STATE.answers[q.id];
 }
 
 function getCurrentQuestion() {
@@ -166,12 +157,10 @@ function getCurrentQuestion() {
 // ── Navegación ───────────────────────────────────────────────
 function goNext() {
   const section = SURVEY_SECTIONS[STATE.sectionIndex];
-
   if (STATE.questionIndex < section.questions.length - 1) {
     STATE.questionIndex++;
     showCurrentQuestion();
   } else {
-    // Fin de sección
     if (STATE.sectionIndex < SURVEY_SECTIONS.length - 1) {
       STATE.sectionIndex++;
       showSectionIntro();
@@ -196,14 +185,10 @@ function goBack() {
 
 // ── Finalizar ────────────────────────────────────────────────
 async function finishSurvey() {
-  // Renderizar resultados
   renderResults(STATE.answers);
   showScreen('screen-results');
   updateProgress(100);
-
-  // Enviar a Google Sheets
   await submitToSheets(STATE.answers);
 }
 
-// Exponer para el HTML
 window.startSection = startSection;
