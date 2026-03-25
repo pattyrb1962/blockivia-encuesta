@@ -1,11 +1,9 @@
 // ============================================================
-//  BLOCKIVIA — RESULTADOS
-//  Calcula el perfil del usuario y renderiza el gráfico.
+//  BLOCKIVIA — RESULTADOS v2
 // ============================================================
 
 function calculateProfile(answers) {
-  // Acumula scores por categoría
-  const scores = { riesgo: 0, cripto: 0, tech: 0 };
+  const scores = { riesgo: 0, cripto: 0, tech: 0, seguridad: 0 };
 
   SURVEY_SECTIONS.forEach(section => {
     section.questions.forEach(q => {
@@ -20,35 +18,31 @@ function calculateProfile(answers) {
     });
   });
 
-  // Normalizar a 0-100 (máximos posibles por categoría)
-  const maxScores = { riesgo: 5, cripto: 11, tech: 12 };
+  // Máximos posibles por categoría
+  const maxScores = { seguridad: 7, cripto: 9, tech: 12 };
   const normalized = {};
-  Object.keys(scores).forEach(cat => {
-    const raw = Math.max(0, scores[cat]);
-    normalized[cat] = Math.round((raw / (maxScores[cat] || 1)) * 100);
+  ['seguridad', 'cripto', 'tech'].forEach(cat => {
+    const raw = Math.max(0, scores[cat] || 0);
+    normalized[cat] = Math.min(100, Math.round((raw / maxScores[cat]) * 100));
   });
 
-  // Buscar perfil que aplica
   const profile = PROFILES.find(p => p.condition(scores)) || PROFILES[PROFILES.length - 1];
-
   return { profile, normalized, raw: scores };
 }
 
 function renderResults(answers) {
   const { profile, normalized } = calculateProfile(answers);
 
-  // -- Badge de perfil --
   const badge = document.getElementById('result-badge');
   badge.style.setProperty('--profile-color', profile.color);
   document.getElementById('result-profile-title').textContent = profile.title;
   document.getElementById('result-profile-desc').textContent = profile.description;
 
-  // -- Gráfico de barras --
   const chartBars = document.getElementById('chart-bars');
   const categories = [
-    { key: 'cripto',  label: '₿ Cripto',    color: '#f5c400' },
-    { key: 'tech',    label: '🤖 Tech & IA', color: '#00f5c4' },
-    { key: 'riesgo',  label: '🛡️ Seguridad', color: '#00b4f5' }
+    { key: 'seguridad', label: '🛡️ Seguridad', color: '#00b4f5' },
+    { key: 'cripto',    label: '₿ Cripto',     color: '#f5c400' },
+    { key: 'tech',      label: '🤖 Tech & IA',  color: '#00f5c4' }
   ];
 
   chartBars.innerHTML = categories.map(cat => `
