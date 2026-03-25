@@ -1,9 +1,7 @@
 // ============================================================
-//  BLOCKIVIA — LÓGICA DE LA ENCUESTA
-//  Controla el flujo entre secciones y preguntas.
+//  BLOCKIVIA — LÓGICA DE LA ENCUESTA v2
 // ============================================================
 
-// Estado global
 const STATE = {
   sectionIndex: 0,
   questionIndex: 0,
@@ -11,7 +9,6 @@ const STATE = {
   phase: 'welcome'
 };
 
-// ── Inicialización ──────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   setupThemeToggle();
   updateProgress(0);
@@ -19,20 +16,19 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-start').addEventListener('click', startSurvey);
 });
 
-// ── Tema oscuro/claro ───────────────────────────────────────
+// ── Tema ────────────────────────────────────────────────────
 function setupThemeToggle() {
   const btn = document.getElementById('theme-toggle');
+  const label = document.getElementById('toggle-label');
   btn.addEventListener('click', () => {
     document.body.classList.toggle('light');
     const isLight = document.body.classList.contains('light');
-    btn.textContent = isLight ? '🌙' : '☀️';
-    document.querySelectorAll('#topbar-logo-img, #welcome-logo-img').forEach(img => {
-      img.src = isLight ? 'assets/logo-light.png' : 'assets/logo-dark.png';
-    });
+    btn.querySelector('.toggle-icon').textContent = isLight ? '🌙' : '☀️';
+    label.textContent = isLight ? 'Oscuro' : 'Claro';
   });
 }
 
-// ── Progreso ────────────────────────────────────────────────
+// ── Progreso ─────────────────────────────────────────────────
 function updateProgress(pct) {
   document.getElementById('progress-fill').style.width = pct + '%';
 }
@@ -47,7 +43,7 @@ function calcProgress() {
   return Math.round((done / total) * 100);
 }
 
-// ── Flujo principal ─────────────────────────────────────────
+// ── Flujo ────────────────────────────────────────────────────
 function startSurvey() {
   STATE.sectionIndex = 0;
   STATE.questionIndex = 0;
@@ -160,13 +156,11 @@ function goNext() {
   if (STATE.questionIndex < section.questions.length - 1) {
     STATE.questionIndex++;
     showCurrentQuestion();
+  } else if (STATE.sectionIndex < SURVEY_SECTIONS.length - 1) {
+    STATE.sectionIndex++;
+    showSectionIntro();
   } else {
-    if (STATE.sectionIndex < SURVEY_SECTIONS.length - 1) {
-      STATE.sectionIndex++;
-      showSectionIntro();
-    } else {
-      finishSurvey();
-    }
+    finishSurvey();
   }
 }
 
