@@ -345,7 +345,7 @@ body.light .welcome-body { color: var(--muted); }
 
 .q-meta {
   font-family: 'Space Mono', monospace;
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: var(--muted);
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -654,6 +654,19 @@ body.light .result-cta p { color: var(--muted); }
   font-family: 'Space Mono', monospace;
   font-size: 0.9rem;
   color: var(--cyan);
+}
+
+/* ══════════════════════════════════════
+   DESKTOP ONLY (768px+)
+   ══════════════════════════════════════ */
+@media (min-width: 768px) {
+  .section-label {
+    font-size: 1rem;
+  }
+  .btn-section-start {
+    font-size: 1.1rem;
+    padding: 16px 36px;
+  }
 }
 
 /* ══════════════════════════════════════
